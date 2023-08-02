@@ -1,8 +1,8 @@
 package com.github.blazeblack2reduxwikiapi.utils;
 
-import com.github.blazeblack2reduxwikiapi.dto.AddMoveDto;
-import com.github.blazeblack2reduxwikiapi.dto.AddPokemonDto;
-import com.github.blazeblack2reduxwikiapi.model.Move;
+import com.github.blazeblack2reduxwikiapi.dto.moves.AddMoveDto;
+import com.github.blazeblack2reduxwikiapi.dto.pokemon.AddPokemonDto;
+import com.github.blazeblack2reduxwikiapi.model.moves.Move;
 import com.github.oscar0812.pokeapi.models.pokemon.PokemonSpeciesVariety;
 
 import java.util.Arrays;
@@ -494,9 +494,9 @@ public class GameChanges {
                 abilities = Arrays.asList("Cute Charm", "Marvel Scale", "-");
             }
             default -> {
-                abilities = addPokemonDto.getAbilityNames();
+                abilities = addPokemonDto.getAbilities();
             }
         }
-        addPokemonDto.setAbilityNames(abilities);
+        addPokemonDto.setAbilities(abilities);
     }
 }

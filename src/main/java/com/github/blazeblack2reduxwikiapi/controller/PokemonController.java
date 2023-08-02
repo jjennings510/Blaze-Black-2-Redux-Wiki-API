@@ -1,11 +1,18 @@
 package com.github.blazeblack2reduxwikiapi.controller;
 
-import com.github.blazeblack2reduxwikiapi.dto.AbilityDto;
-import com.github.blazeblack2reduxwikiapi.dto.MoveDetailPokemonDto;
-import com.github.blazeblack2reduxwikiapi.dto.PokemonDetailDto;
-import com.github.blazeblack2reduxwikiapi.dto.PokemonRowDto;
+import com.github.blazeblack2reduxwikiapi.dto.abilities.AbilityDto;
+import com.github.blazeblack2reduxwikiapi.dto.pokemon.MoveDetailPokemonDto;
+import com.github.blazeblack2reduxwikiapi.dto.pokemon.PokemonDetailDto;
+import com.github.blazeblack2reduxwikiapi.dto.pokemon.PokemonRowDto;
 import com.github.blazeblack2reduxwikiapi.model.*;
+import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
+import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.BaseStats;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
 import com.github.blazeblack2reduxwikiapi.service.*;
+import com.github.blazeblack2reduxwikiapi.service.pokemon.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

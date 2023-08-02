@@ -1,7 +1,7 @@
 package com.github.blazeblack2reduxwikiapi.controller;
 
 import com.github.blazeblack2reduxwikiapi.model.Sprite;
-import com.github.blazeblack2reduxwikiapi.service.PokemonService;
+import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonService;
 import com.github.blazeblack2reduxwikiapi.service.SpriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

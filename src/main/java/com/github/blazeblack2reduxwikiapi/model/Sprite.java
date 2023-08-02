@@ -1,6 +1,8 @@
 package com.github.blazeblack2reduxwikiapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
 import jakarta.persistence.*;
 import lombok.Data;
 

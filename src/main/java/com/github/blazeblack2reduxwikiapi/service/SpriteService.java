@@ -1,9 +1,9 @@
 package com.github.blazeblack2reduxwikiapi.service;
 
-import com.github.blazeblack2reduxwikiapi.model.Pokemon;
-import com.github.blazeblack2reduxwikiapi.model.PokemonSpecies;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
 import com.github.blazeblack2reduxwikiapi.model.Sprite;
-import com.github.blazeblack2reduxwikiapi.repository.PokemonSpeciesRepository;
+import com.github.blazeblack2reduxwikiapi.repository.pokemon.PokemonSpeciesRepository;
 import com.github.blazeblack2reduxwikiapi.repository.SpriteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;

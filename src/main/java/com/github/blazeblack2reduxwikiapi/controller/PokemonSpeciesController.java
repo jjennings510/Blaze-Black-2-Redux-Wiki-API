@@ -1,12 +1,18 @@
 package com.github.blazeblack2reduxwikiapi.controller;
 
-import com.github.blazeblack2reduxwikiapi.dto.AbilityDto;
-import com.github.blazeblack2reduxwikiapi.dto.PokemonRowDto;
-import com.github.blazeblack2reduxwikiapi.model.*;
-import com.github.blazeblack2reduxwikiapi.service.PokemonAbilityService;
-import com.github.blazeblack2reduxwikiapi.service.PokemonService;
-import com.github.blazeblack2reduxwikiapi.service.PokemonSpeciesService;
+import com.github.blazeblack2reduxwikiapi.dto.abilities.AbilityDto;
+import com.github.blazeblack2reduxwikiapi.dto.pokemon.PokemonRowDto;
+import com.github.blazeblack2reduxwikiapi.model.Sprite;
+import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.BaseStats;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
 import com.github.blazeblack2reduxwikiapi.service.SpriteService;
+import com.github.blazeblack2reduxwikiapi.service.pokemon.BaseStatsService;
+import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonAbilityService;
+import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonService;
+import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonSpeciesService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -27,9 +33,11 @@ public class PokemonSpeciesController {
     SpriteService spriteService;
     PokemonAbilityService pokemonAbilityService;
     PokemonService pokemonService;
+    BaseStatsService baseStatsService;
 
     public PokemonSpeciesController(PokemonSpeciesService pokemonSpeciesService, SpriteService spriteService,
-                                    PokemonAbilityService pokemonAbilityService, PokemonService pokemonService) {
+                                    PokemonAbilityService pokemonAbilityService, PokemonService pokemonService,
+                                    BaseStatsService baseStatsService) {
         this.pokemonSpeciesService = pokemonSpeciesService;
         this.spriteService = spriteService;
         this.pokemonAbilityService = pokemonAbilityService;
@@ -72,7 +80,8 @@ public class PokemonSpeciesController {
             for (Type type : pokemon.getTypes()) {
                 dto.getTypes().add(type.getName());
             }
-            dto.setBaseStats(pokemon.getBaseStats());
+            Optional<BaseStats> baseStats = baseStatsService.getBaseStatsById(pokemon.getId());
+            baseStats.ifPresent(dto::setBaseStats);
             dtos.add(dto);
         }
 

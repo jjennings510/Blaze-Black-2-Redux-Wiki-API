@@ -1,6 +1,13 @@
 package com.github.blazeblack2reduxwikiapi.config;
 
 import com.github.blazeblack2reduxwikiapi.model.*;
+import com.github.blazeblack2reduxwikiapi.model.abilities.Ability;
+import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
+import com.github.blazeblack2reduxwikiapi.model.moves.Move;
+import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.BaseStats;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
