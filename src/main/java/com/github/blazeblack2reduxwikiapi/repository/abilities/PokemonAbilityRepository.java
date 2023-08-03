@@ -12,8 +12,6 @@ import java.util.concurrent.CompletableFuture;
 public interface PokemonAbilityRepository extends JpaRepository<PokemonAbility, Long> {
     @Query("select pa from PokemonAbility pa join pa.ability where pa.pokemon.id in :pokemonId")
     List<PokemonAbility> findByPokemonIds(@Param("pokemonId") Long[] pokemonId);
-//    @Query("select pa from PokemonAbility pa join pa.ability where pa.pokemon.id = :pokemonId")
-//    List<PokemonAbility> findByPokemonId(@Param("pokemonId") Long pokemonId);
     @Async
     @Query("select pa from PokemonAbility pa join pa.ability where pa.pokemon.id = :pokemonId")
     CompletableFuture<List<PokemonAbility>> findByPokemonIdAsync(@Param("pokemonId") Long pokemonId);

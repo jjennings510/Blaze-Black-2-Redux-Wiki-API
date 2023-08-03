@@ -46,31 +46,6 @@ public class PokemonService {
         this.baseStatsRepository = baseStatsRepository;
     }
 
-//    public void addPokemon(AddPokemonDto addPokemonDto) throws Exception {
-//        if (pokemonRepository.findByFormName(addPokemonDto.getFormName()) == null) {
-//            Pokemon pokemon = new Pokemon();
-//            com.github.oscar0812.pokeapi.models.pokemon.Pokemon apiPokemon =
-//                    Client.getPokemonByName(addPokemonDto.getFormName());
-//
-//            if (apiPokemon == null) {
-//                throw new Exception("Could not find pokemon:\t" + addPokemonDto.getFormName());
-//            }
-//            // extract the english name and set to Pokémon
-//            for (Name name : apiPokemon.getSpecies().getNames()) {
-//                if (name.getLanguage().getName().equals("en")) {
-//                    pokemon.setSpeciesName(name.getName());
-//                    break;
-//                }
-//            }
-//            pokemon.setNumber(addPokemonDto.getNumber());
-//            pokemon.setFormName(addPokemonDto.getFormName());
-//            setAbilities(addPokemonDto.getAbilityNames(), pokemon, apiPokemon);
-//            setTypes(addPokemonDto.getTypeNames(), pokemon, apiPokemon);
-//            System.out.println(pokemon);
-//            pokemonRepository.save(pokemon);
-//        }
-//    }
-
     public List<Pokemon> getPokemon() {
         return pokemonRepository.findAll();
     }

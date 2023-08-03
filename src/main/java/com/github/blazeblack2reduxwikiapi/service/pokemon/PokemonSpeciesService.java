@@ -41,6 +41,9 @@ public class PokemonSpeciesService {
     public List<PokemonSpecies> getPokemonByNumberBetween(int start, int end) {
         return pokemonSpeciesRepository.findByNumberBetween(start, end);
     }
+    public List<PokemonSpecies> getFirst10ByNameContaining(String name) {
+        return pokemonSpeciesRepository.findFirst10ByNameContaining(name);
+    }
     public Page<PokemonSpecies> getPokemonPage(Pageable pageable) {
         return pokemonSpeciesRepository.findPage(pageable);
     }

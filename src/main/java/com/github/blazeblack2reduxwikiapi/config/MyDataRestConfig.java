@@ -7,6 +7,7 @@ import com.github.blazeblack2reduxwikiapi.model.moves.Move;
 import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.BaseStats;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -30,6 +31,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         config.exposeIdsFor(BaseStats.class);
         config.exposeIdsFor(Move.class);
         config.exposeIdsFor(Pokemon.class);
+        config.exposeIdsFor(PokemonSpecies.class);
         config.exposeIdsFor(PokemonAbility.class);
         config.exposeIdsFor(PokemonMove.class);
         config.exposeIdsFor(Type.class);
@@ -38,6 +40,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(Ability.class, config, unsupportedActions);
         disableHttpMethods(BaseStats.class, config, unsupportedActions);
         disableHttpMethods(Move.class, config, unsupportedActions);
+        disableHttpMethods(PokemonSpecies.class, config, unsupportedActions);
         disableHttpMethods(Pokemon.class, config, unsupportedActions);
         disableHttpMethods(PokemonAbility.class, config, unsupportedActions);
         disableHttpMethods(PokemonMove.class, config, unsupportedActions);

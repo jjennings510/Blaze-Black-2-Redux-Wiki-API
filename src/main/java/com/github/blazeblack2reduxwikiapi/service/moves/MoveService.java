@@ -103,7 +103,9 @@ public class MoveService {
             System.out.println("Updated Move:\t" + newMove);
             moveRepository.save(newMove.get());
         }
-
+    }
+    public List<Move> getFirst10ByNameContaining(String name) {
+        return moveRepository.findFirst10ByNameContaining(name);
     }
     public Page<Move> getMoves(String query, String type, Pageable pageable) {
         return moveRepository.findMoves(query, type, pageable);

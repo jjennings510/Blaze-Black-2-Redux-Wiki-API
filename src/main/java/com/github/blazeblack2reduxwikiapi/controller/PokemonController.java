@@ -4,14 +4,14 @@ import com.github.blazeblack2reduxwikiapi.dto.abilities.AbilityDto;
 import com.github.blazeblack2reduxwikiapi.dto.pokemon.MoveDetailPokemonDto;
 import com.github.blazeblack2reduxwikiapi.dto.pokemon.PokemonDetailDto;
 import com.github.blazeblack2reduxwikiapi.dto.pokemon.PokemonRowDto;
-import com.github.blazeblack2reduxwikiapi.model.*;
+import com.github.blazeblack2reduxwikiapi.model.Sprite;
 import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
 import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.BaseStats;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
-import com.github.blazeblack2reduxwikiapi.service.*;
+import com.github.blazeblack2reduxwikiapi.service.SpriteService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -71,20 +71,15 @@ public class PokemonController {
                 dto.setPreviousPokemonName(species.get(0).getName());
                 dto.setNextPokemonName(species.get(2).getName());
             }
-            dto.setPokemon(pokemon.get());
-            for (PokemonAbility ability : pokemon.get().getAbilities()) {
-                AbilityDto abilityDto = new AbilityDto();
-                abilityDto.setId(ability.getAbility().getId());
-                abilityDto.setName(ability.getAbility().getName());
-                abilityDto.setShortEffect(ability.getAbility().getShortEffect());
-                abilityDto.setHiddenAbility(ability.isHiddenAbility());
-                dto.getAbilities().add(abilityDto);
-            }
+            dto.setId(pokemon.get().getId());
+            dto.setName(pokemon.get().getName());
+            dto.setFormName(pokemon.get().getFormName());
+            dto.setNumber(pokemon.get().getNumber());
+
             dto.setTypes(pokemon.get().getTypes().stream()
                     .map(Type::getName)
                     .collect(Collectors.toList()));
-            Optional<BaseStats> baseStats = baseStatsService.getBaseStatsById(pokemon.get().getId());
-            baseStats.ifPresent(dto::setBaseStats);
+
             return new ResponseEntity<>(dto, HttpStatus.OK);
 
         }

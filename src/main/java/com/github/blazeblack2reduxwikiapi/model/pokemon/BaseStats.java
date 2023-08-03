@@ -1,7 +1,6 @@
 package com.github.blazeblack2reduxwikiapi.model.pokemon;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +26,6 @@ public class BaseStats {
     @MapsId
     @JoinColumn(name = "pokemon_id")
     @JsonIgnore
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Pokemon pokemon;
 
     public void setBst() {

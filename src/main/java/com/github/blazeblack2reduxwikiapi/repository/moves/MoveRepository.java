@@ -16,6 +16,9 @@ public interface MoveRepository extends JpaRepository<Move, Long> {
     List<Move> findAllTMs();
     @Query("select m from Move m where m.machine like 'HM%'")
     List<Move> findAllHMs();
+    List<Move> findFirst10ByNameContaining(@RequestParam("name") String name);
     @Query("select m from Move m where m.name like %:query% and m.type.name like %:type% order by m.name")
     Page<Move> findMoves(String query, String type, Pageable pageable);
+    Page<Move> findByNameContainingOrderByName(@RequestParam("name") String name, Pageable pageable);
+    Page<Move> findByNameContaining(@RequestParam("name") String name, Pageable pageable);
 }

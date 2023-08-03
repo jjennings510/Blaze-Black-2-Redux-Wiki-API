@@ -16,6 +16,7 @@ import java.util.concurrent.Future;
 public interface PokemonSpeciesRepository extends JpaRepository<PokemonSpecies, Long> {
     Optional<PokemonSpecies> findByName(@RequestParam("name") String name);
     List<PokemonSpecies> findFirst3ByIdGreaterThan(@RequestParam("id") Long id);
+    List<PokemonSpecies> findFirst10ByNameContaining(@RequestParam("name") String name);
     Page<PokemonSpecies> findByNameContaining(@RequestParam("name") String name, Pageable pageable);
     @Query(value = "select distinct pokemon_species.* from pokemon_species " +
             "join pokemon on pokemon_species.id=pokemon.species_id " +

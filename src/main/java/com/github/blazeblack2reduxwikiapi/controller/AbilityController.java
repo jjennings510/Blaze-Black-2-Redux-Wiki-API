@@ -52,4 +52,21 @@ public class AbilityController {
         return ResponseEntity.ok()
                 .body(response);
     }
+
+    @GetMapping("get/for/pokemonId")
+    public ResponseEntity<List<AbilityDto>> getAbilitiesForPokemonId(@RequestParam("pokemonId") Long pokemonId) {
+        List<PokemonAbility> pokemonAbilities = pokemonAbilityService.getAbilitiesForPokemonId(pokemonId);
+        List<AbilityDto> abilityDtos = new ArrayList<>();
+
+        for (PokemonAbility ability : pokemonAbilities) {
+            AbilityDto abilityDto = new AbilityDto();
+            abilityDto.setId(ability.getAbility().getId());
+            abilityDto.setName(ability.getAbility().getName());
+            abilityDto.setShortEffect(ability.getAbility().getShortEffect());
+            abilityDto.setHiddenAbility(ability.isHiddenAbility());
+            abilityDtos.add(abilityDto);
+        }
+        return ResponseEntity.ok()
+                .body(abilityDtos);
+    }
 }

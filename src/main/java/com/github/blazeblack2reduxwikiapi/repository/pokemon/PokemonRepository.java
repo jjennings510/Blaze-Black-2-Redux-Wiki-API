@@ -7,12 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @RepositoryRestResource(collectionResourceRel = "pokemon", path = "pokemon")
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
@@ -34,9 +32,6 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Long> {
             where m.id=:moveId and p.name like %:query%
             and pm.method=:method""")
     Page<Pokemon> findByMoveIdForMethod(@Param("moveId") Long moveId, String method, String query, Pageable pageable);
-    @Async
-    @Query("select p from Pokemon p where p.species.id=:speciesId order by p.id limit 1")
-    CompletableFuture<Pokemon> findFirstBySpeciesIdAsync(@Param("speciesId") Long speciesId);
 
     @Query("select p from Pokemon p where p.species.id=:speciesId order by p.id limit 1")
     Pokemon findFirstBySpeciesId(@Param("speciesId") Long speciesId);

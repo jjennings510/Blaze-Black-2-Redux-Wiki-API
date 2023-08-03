@@ -13,6 +13,7 @@ import com.github.blazeblack2reduxwikiapi.service.pokemon.BaseStatsService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonAbilityService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonSpeciesService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,7 @@ public class PokemonSpeciesController {
     PokemonService pokemonService;
     BaseStatsService baseStatsService;
 
+    @Autowired
     public PokemonSpeciesController(PokemonSpeciesService pokemonSpeciesService, SpriteService spriteService,
                                     PokemonAbilityService pokemonAbilityService, PokemonService pokemonService,
                                     BaseStatsService baseStatsService) {
@@ -42,6 +44,7 @@ public class PokemonSpeciesController {
         this.spriteService = spriteService;
         this.pokemonAbilityService = pokemonAbilityService;
         this.pokemonService = pokemonService;
+        this.baseStatsService = baseStatsService;
     }
 
     @GetMapping("/get/pokedex")

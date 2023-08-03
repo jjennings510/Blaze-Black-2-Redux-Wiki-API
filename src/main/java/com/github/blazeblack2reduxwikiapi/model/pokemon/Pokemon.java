@@ -8,16 +8,14 @@ import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
 import com.github.blazeblack2reduxwikiapi.model.locations.PokemonEncounter;
 import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "pokemon")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Pokemon {
     @Id
@@ -32,12 +30,13 @@ public class Pokemon {
     @JsonBackReference
     private PokemonSpecies species;
     @OneToMany(mappedBy = "pokemon", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Sprite> sprites;
     @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private List<PokemonAbility> abilities;
     @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @JsonManagedReference
     private List<PokemonMove> moves;
 
     @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL, orphanRemoval = true)
