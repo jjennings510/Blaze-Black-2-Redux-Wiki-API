@@ -4,7 +4,7 @@ import com.github.blazeblack2reduxwikiapi.dto.abilities.AbilityDto;
 import com.github.blazeblack2reduxwikiapi.dto.abilities.PokemonAbilityDto;
 import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
 import com.github.blazeblack2reduxwikiapi.service.abilities.AbilityService;
-import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonAbilityService;
+import com.github.blazeblack2reduxwikiapi.service.abilities.PokemonAbilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

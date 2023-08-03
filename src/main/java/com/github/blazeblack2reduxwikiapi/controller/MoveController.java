@@ -7,7 +7,7 @@ import com.github.blazeblack2reduxwikiapi.dto.moves.MoveRowDto;
 import com.github.blazeblack2reduxwikiapi.model.moves.Move;
 import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
 import com.github.blazeblack2reduxwikiapi.service.moves.MoveService;
-import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonMoveService;
+import com.github.blazeblack2reduxwikiapi.service.moves.PokemonMoveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

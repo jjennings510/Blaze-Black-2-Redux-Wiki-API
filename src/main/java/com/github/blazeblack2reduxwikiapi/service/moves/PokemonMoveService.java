@@ -1,4 +1,4 @@
-package com.github.blazeblack2reduxwikiapi.service.pokemon;
+package com.github.blazeblack2reduxwikiapi.service.moves;
 
 import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
 import com.github.blazeblack2reduxwikiapi.repository.moves.MoveRepository;

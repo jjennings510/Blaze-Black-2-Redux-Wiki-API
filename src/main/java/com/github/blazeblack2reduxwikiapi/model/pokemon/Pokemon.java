@@ -1,7 +1,6 @@
 package com.github.blazeblack2reduxwikiapi.model.pokemon;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.blazeblack2reduxwikiapi.model.Sprite;
 import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
@@ -42,14 +41,10 @@ public class Pokemon {
     @OneToMany(mappedBy = "pokemon", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<PokemonEncounter> encounters;
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "pokemon_types",
-            joinColumns = @JoinColumn(name = "pokemon_id"),
-            inverseJoinColumns = @JoinColumn(name = "type_id")
-    )
-    @JsonIgnore
-    private List<Type> types;
+
+    @OneToMany(mappedBy = "pokemon", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
+    @JsonManagedReference
+    private List<PokemonType> types;
 
     @Override
     public String toString() {

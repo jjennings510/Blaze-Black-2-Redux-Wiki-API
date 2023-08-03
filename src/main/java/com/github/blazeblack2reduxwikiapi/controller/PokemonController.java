@@ -10,8 +10,10 @@ import com.github.blazeblack2reduxwikiapi.model.moves.PokemonMove;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.BaseStats;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
-import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonType;
 import com.github.blazeblack2reduxwikiapi.service.SpriteService;
+import com.github.blazeblack2reduxwikiapi.service.abilities.PokemonAbilityService;
+import com.github.blazeblack2reduxwikiapi.service.moves.PokemonMoveService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequestMapping("/api/pokemon")
 @Controller
@@ -41,17 +42,20 @@ public class PokemonController {
     private final SpriteService spriteService;
     private final PokemonAbilityService pokemonAbilityService;
     private final PokemonMoveService pokemonMoveService;
+    private final PokemonTypeService pokemonTypeService;
 
     @Autowired
     public PokemonController(PokemonService pokemonService, BaseStatsService baseStatsService,
                              SpriteService spriteService, PokemonSpeciesService pokemonSpeciesService,
-                             PokemonAbilityService pokemonAbilityService, PokemonMoveService pokemonMoveService) {
+                             PokemonAbilityService pokemonAbilityService, PokemonMoveService pokemonMoveService,
+                             PokemonTypeService pokemonTypeService) {
         this.pokemonService = pokemonService;
         this.pokemonSpeciesService = pokemonSpeciesService;
         this.baseStatsService = baseStatsService;
         this.spriteService = spriteService;
         this.pokemonAbilityService = pokemonAbilityService;
         this.pokemonMoveService = pokemonMoveService;
+        this.pokemonTypeService = pokemonTypeService;
     }
 
     @GetMapping("get/details")
@@ -76,9 +80,12 @@ public class PokemonController {
             dto.setFormName(pokemon.get().getFormName());
             dto.setNumber(pokemon.get().getNumber());
 
-            dto.setTypes(pokemon.get().getTypes().stream()
-                    .map(Type::getName)
-                    .collect(Collectors.toList()));
+            List<PokemonType> types = pokemonTypeService.getPokemonTypesForPokemonId(pokemon.get().getId());
+            List<String> typeNames = new ArrayList<>();
+            for (PokemonType type : types) {
+                typeNames.add(type.getType().getName());
+            }
+            dto.setTypes(typeNames);
 
             return new ResponseEntity<>(dto, HttpStatus.OK);
 
@@ -110,11 +117,12 @@ public class PokemonController {
                 abilityDto.setHiddenAbility(ability.isHiddenAbility());
                 dto.getAbilities().add(abilityDto);
             }
-
-            dto.setTypes(pokemon.getTypes().stream()
-                    .map(Type::getName)
-                    .collect(Collectors.toList()));
-
+            List<PokemonType> types = pokemonTypeService.getPokemonTypesForPokemonId(pokemon.getId());
+            List<String> typeNames = new ArrayList<>();
+            for (PokemonType type : types) {
+                typeNames.add(type.getType().getName());
+            }
+            dto.setTypes(typeNames);
             dtos.add(dto);
         }
 
@@ -142,9 +150,12 @@ public class PokemonController {
                     "front-default");
             sprite.ifPresent(dto::setSprite);
 
-            dto.setTypes(pokemon.getTypes().stream()
-                    .map(Type::getName)
-                    .collect(Collectors.toList()));
+            List<PokemonType> types = pokemonTypeService.getPokemonTypesForPokemonId(pokemon.getId());
+            List<String> typeNames = new ArrayList<>();
+            for (PokemonType type : types) {
+                typeNames.add(type.getType().getName());
+            }
+            dto.setTypes(typeNames);
 
             Optional<BaseStats> baseStats = baseStatsService.getBaseStatsById(pokemon.getId());
             baseStats.ifPresent(dto::setBaseStats);

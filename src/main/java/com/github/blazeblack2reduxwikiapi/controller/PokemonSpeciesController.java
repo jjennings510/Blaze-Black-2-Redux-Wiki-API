@@ -7,12 +7,13 @@ import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.BaseStats;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonSpecies;
-import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonType;
 import com.github.blazeblack2reduxwikiapi.service.SpriteService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.BaseStatsService;
-import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonAbilityService;
+import com.github.blazeblack2reduxwikiapi.service.abilities.PokemonAbilityService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonSpeciesService;
+import com.github.blazeblack2reduxwikiapi.service.pokemon.PokemonTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -35,16 +36,18 @@ public class PokemonSpeciesController {
     PokemonAbilityService pokemonAbilityService;
     PokemonService pokemonService;
     BaseStatsService baseStatsService;
+    PokemonTypeService pokemonTypeService;
 
     @Autowired
     public PokemonSpeciesController(PokemonSpeciesService pokemonSpeciesService, SpriteService spriteService,
                                     PokemonAbilityService pokemonAbilityService, PokemonService pokemonService,
-                                    BaseStatsService baseStatsService) {
+                                    BaseStatsService baseStatsService, PokemonTypeService pokemonTypeService) {
         this.pokemonSpeciesService = pokemonSpeciesService;
         this.spriteService = spriteService;
         this.pokemonAbilityService = pokemonAbilityService;
         this.pokemonService = pokemonService;
         this.baseStatsService = baseStatsService;
+        this.pokemonTypeService = pokemonTypeService;
     }
 
     @GetMapping("/get/pokedex")
@@ -80,9 +83,13 @@ public class PokemonSpeciesController {
                 dto.getAbilities().add(abilityDto);
             }
 
-            for (Type type : pokemon.getTypes()) {
-                dto.getTypes().add(type.getName());
+            List<PokemonType> types = pokemonTypeService.getPokemonTypesForPokemonId(pokemon.getId());
+            List<String> typeNames = new ArrayList<>();
+            for (PokemonType type : types) {
+                typeNames.add(type.getType().getName());
             }
+            dto.setTypes(typeNames);
+
             Optional<BaseStats> baseStats = baseStatsService.getBaseStatsById(pokemon.getId());
             baseStats.ifPresent(dto::setBaseStats);
             dtos.add(dto);

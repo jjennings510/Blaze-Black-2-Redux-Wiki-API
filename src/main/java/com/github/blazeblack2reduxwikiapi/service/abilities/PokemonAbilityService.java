@@ -1,4 +1,4 @@
-package com.github.blazeblack2reduxwikiapi.service.pokemon;
+package com.github.blazeblack2reduxwikiapi.service.abilities;
 
 import com.github.blazeblack2reduxwikiapi.model.abilities.PokemonAbility;
 import com.github.blazeblack2reduxwikiapi.repository.abilities.PokemonAbilityRepository;

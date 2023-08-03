@@ -137,7 +137,7 @@ public class PokemonService {
                 types.add(type.get());
             }
         }
-        pokemon.setTypes(types);
+//        pokemon.setTypes(types);
     }
 
     private void setAbilities(List<String> abilityNames, Pokemon pokemon,

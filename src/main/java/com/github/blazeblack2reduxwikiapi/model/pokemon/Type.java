@@ -1,6 +1,6 @@
 package com.github.blazeblack2reduxwikiapi.model.pokemon;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.github.blazeblack2reduxwikiapi.model.moves.Move;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+
 @Entity
 @Table(name = "types")
 @Data
@@ -20,9 +21,9 @@ public class Type {
     private Long id;
     @NonNull
     private String name;
-    @ManyToMany(mappedBy = "types")
-    @JsonBackReference
-    private List<Pokemon> pokemonList;
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<PokemonType> pokemonList;
     @OneToMany(mappedBy = "type")
     private List<Move> moves;
 

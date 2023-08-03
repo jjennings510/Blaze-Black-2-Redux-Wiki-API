@@ -12,6 +12,8 @@ import com.github.blazeblack2reduxwikiapi.model.locations.Location;
 import com.github.blazeblack2reduxwikiapi.model.locations.LocationArea;
 import com.github.blazeblack2reduxwikiapi.model.locations.PokemonEncounter;
 import com.github.blazeblack2reduxwikiapi.model.pokemon.Pokemon;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.PokemonType;
+import com.github.blazeblack2reduxwikiapi.model.pokemon.Type;
 import com.github.blazeblack2reduxwikiapi.service.SpriteService;
 import com.github.blazeblack2reduxwikiapi.service.abilities.AbilityService;
 import com.github.blazeblack2reduxwikiapi.service.encounters.EncounterConditionService;
@@ -21,6 +23,7 @@ import com.github.blazeblack2reduxwikiapi.service.locations.LocationAreaService;
 import com.github.blazeblack2reduxwikiapi.service.locations.LocationService;
 import com.github.blazeblack2reduxwikiapi.service.locations.PokemonEncounterService;
 import com.github.blazeblack2reduxwikiapi.service.moves.MoveService;
+import com.github.blazeblack2reduxwikiapi.service.moves.PokemonMoveService;
 import com.github.blazeblack2reduxwikiapi.service.pokemon.*;
 import com.github.oscar0812.pokeapi.models.utility.Name;
 import com.github.oscar0812.pokeapi.utils.Client;
@@ -29,6 +32,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -70,8 +74,70 @@ public class databaseSeeder implements CommandLineRunner {
     @Autowired
     EncounterMethodService encounterMethodService;
 
+    @Autowired
+    PokemonTypeService pokemonTypeService;
+
     @Override
     public void run(String... args) throws Exception {
+    }
+
+    private void loadPokemonTypeData() throws FileNotFoundException {
+        File file = new File(Objects.requireNonNull(getClass().getResource("/text/PokemonChanges.txt")).getFile());
+        Scanner reader = new Scanner(file);
+        while (reader.hasNextLine()) {
+            String data = reader.nextLine();
+            Pattern pattern = Pattern.compile("[0-9]{3} - ");
+            Matcher matcher = pattern.matcher(data);
+            if (matcher.find()) {
+                String name = data.split(" - ")[1].trim();
+                List<Pokemon> pokemonList = pokemonService.getPokemonBySpeciesName(name);
+                System.out.println(name);
+                Boolean foundType = false;
+                while (!data.contains("Level Up")) {
+                    if (data.contains("Type (Complete")) {
+                        reader.nextLine();
+                        data = reader.nextLine();
+                        foundType = true;
+                        data = data.replace("New", "").trim();
+                        String[] types = data.split("/");
+
+                        for (Pokemon pokemon : pokemonList) {
+                            int index = 1;
+                            for (String typeName : types) {
+                                PokemonType pokemonType = new PokemonType();
+                                Optional<Type> type = typeService.getTypeByName(typeName.trim());
+                                type.ifPresent(pokemonType::setType);
+                                pokemonType.setPokemon(pokemon);
+                                pokemonType.setSlot(index++);
+                                System.out.println(pokemonType);
+                                pokemonTypeService.addPokemonType(pokemonType);
+                                // save type to db
+                            }
+                        }
+                    }
+                    data = reader.nextLine();
+                }
+                // No new type
+                if (!foundType) {
+                    for (Pokemon pokemon : pokemonList) {
+                        com.github.oscar0812.pokeapi.models.pokemon.Pokemon apiPokemon = Client.getPokemonByName(pokemon.getFormName());
+                        int index = 1;
+                        for (com.github.oscar0812.pokeapi.models.pokemon.PokemonType apiType : apiPokemon.getTypes()) {
+                            PokemonType pokemonType = new PokemonType();
+                            Optional<Type> type = typeService.getTypeByName(apiType.getType().getName());
+                            type.ifPresent(pokemonType::setType);
+                            pokemonType.setPokemon(pokemon);
+                            pokemonType.setSlot(apiType.getSlot());
+                            System.out.println("From API:\t\t\t" + pokemonType);
+                            pokemonTypeService.addPokemonType(pokemonType);
+                        }
+                    }
+                }
+                System.out.println("\n");
+                System.out.println("=========".repeat(10));
+                System.out.println("\n");
+            }
+        }
     }
 
     private void loadLocationData() {
@@ -463,7 +529,6 @@ public class databaseSeeder implements CommandLineRunner {
         pokemonEncounter.setMaxLevel(dto.getMaxLevel());
 
 
-
         Optional<EncounterMethod> encounterMethod = encounterMethodService.getEncounterMethodByName(dto.getMethod());
         if (encounterMethod.isPresent()) {
             pokemonEncounter.setMethod(encounterMethod.get());
@@ -473,7 +538,6 @@ public class databaseSeeder implements CommandLineRunner {
             encounterMethodService.addEncounterMethod(method);
             pokemonEncounter.setMethod(method);
         }
-
 
 
         pokemonEncounterService.addPokemonEncounter(pokemonEncounter);
